@@ -18,15 +18,19 @@ end
 [DEBUG_RollingCountInit0.PreValue,DEBUG_RollingCountInit0.Time] = read(m, DEBUG_RollingCountInit0.index,'DEBUG_RollingCountInit0','OutputFormat','Vector');
 [DEBUG_RollingCountExit.PreValue,DEBUG_RollingCountExit.Time] = read(m, DEBUG_RollingCountExit.index,'DEBUG_RollingCountExit','OutputFormat','Vector');
 
-Exit_bakup = 0;
+
 for i=1:size(DEBUG_RollingCountExit.Time)
     if DEBUG_RollingCountInit0.PreValue(i) ~= 0
         StartPoint = i;
-    end
-    if DEBUG_RollingCountExit.PreValue ~= Exit_bakup
-        EndPoint = i;
-        Exit_bakup = DEBUG_RollingCountExit.PreValue;
+        Exit_bakup = DEBUG_RollingCountExit.PreValue(i);
+        break;
     end
 end
-
+for i=StartPoint:size(DEBUG_RollingCountExit.Time)
+    if DEBUG_RollingCountExit.PreValue(i) ~= Exit_bakup
+        EndPoint = i;
+        Exit_bakup = DEBUG_RollingCountExit.PreValue(i);
+        break;
+    end
+end
 end
